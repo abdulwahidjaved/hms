@@ -1,9 +1,17 @@
+"use client";
+import { useState } from "react";
 import Dropdown from "../components/dropdown";
 import Sidebar from "../components/Sidebar";
 import { SiSimpleanalytics } from "react-icons/si";
+import AnalyticsDashboard from "./analyticsDashboard/page";
 
 
 export default function HospitalAdministrator() {
+  const [active, setActive] = useState("analytics");
+
+  const menuItems = [
+    { label: "Analytics Dashboard", value: "analytics", icon: <SiSimpleanalytics /> }
+  ];
   return (
     <>
       <div className="p-6">
@@ -11,8 +19,10 @@ export default function HospitalAdministrator() {
       </div>
 
       <div className="sidebar border-t-2 dark:border-white mt-6 flex">
-        <Sidebar roles={"Hospital Administrator"} feature1={"Analytics Dashboard"} feature2={""} icon1={<SiSimpleanalytics />
-        } icon2={""} />
+        <Sidebar roles={"Hospital Administrator"} menu={menuItems} onSelect={setActive} />
+        <div className="main p-8 w-full">
+          {active === "analytics" && <AnalyticsDashboard />}
+        </div>
       </div>
     </>
   );
