@@ -1,8 +1,8 @@
 "use client";
+"use client";
 import InfoCard from "@/app/components/InfoCard";
 import { CiClock2 } from "react-icons/ci";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { IoCalendarClearOutline } from "react-icons/io5";
+import { FaAngleDown } from "react-icons/fa";
 import { LuBox } from "react-icons/lu";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { IoWarningOutline } from "react-icons/io5";
