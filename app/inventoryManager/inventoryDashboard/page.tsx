@@ -1,6 +1,6 @@
 "use client";
 import InfoCard from "@/app/components/InfoCard";
-import { CiClock2 } from "react-icons/ci";
+import { IoMdAdd } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { LuBox } from "react-icons/lu";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function InventoryDashboard() {
 
     const [open, setOpen] = useState(false);
+    const [open01, setOpen01] = useState(false);
 
     const tableItems = [
         {
@@ -42,18 +43,39 @@ export default function InventoryDashboard() {
 
                 <div className="contentsAll flex justify-between relative items-center">
                     <h1 className="font-bold text-3xl">Inventory items</h1>
-                    <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen(!open)}>
-                        <span className="text-gray-400">Filter by status</span>
-                        <FaAngleDown className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
-                    </button>
+
+                    <div className="buttons flex gap-5">
+
+                        <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen(!open)}>
+                            <span className="text-gray-400">Filter by status</span>
+                            <FaAngleDown className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+                        </button>
+
+                        <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen01(!open01)}>
+                            <span className="text-gray-400">All items</span>
+                            <FaAngleDown className={`transition-transform duration-300 ${open01 ? "rotate-180" : ""}`} />
+                        </button>
+                        
+                        <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer">
+                            <IoMdAdd />
+                            <span className="text-gray-400">Restock request</span>
+                            
+                        </button>
+                    </div>
                 </div>
 
-                <div className={`absolute ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"} flex flex-col right-5 mt-2 border-2 dark:border-white w-48 transition-all duration-300 dark:bg-black cursor-pointer`}>
-                    <span className="hover:bg-gray-700 px-2 py-1">All Statuses</span>
-                    <span className="hover:bg-gray-700 px-2 py-1">Pending</span>
-                    <span className="hover:bg-gray-700 px-2 py-1">Scheduled</span>
-                    <span className="hover:bg-gray-700 px-2 py-1">In Progress</span>
-                    <span className="hover:bg-gray-700 px-2 py-1">Completed</span>
+                <div className={`absolute ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"} flex flex-col right-92 mt-2 border-2 dark:border-white w-42 transition-all duration-300 dark:bg-black cursor-pointer`}>
+                    <span className="hover:bg-gray-700 px-2 py-1">All Categories</span>
+                    <span className="hover:bg-gray-700 px-2 py-1">Medication</span>
+                    <span className="hover:bg-gray-700 px-2 py-1">Antibiotic</span>
+                    <span className="hover:bg-gray-700 px-2 py-1">Supplies</span>
+                </div>
+
+                <div className={`absolute ${open01 ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"} flex flex-col right-48 mt-2 border-2 dark:border-white w-42 transition-all duration-300 dark:bg-black cursor-pointer`}>
+                    <span className="hover:bg-gray-700 px-2 py-1">All items</span>
+                    <span className="hover:bg-gray-700 px-2 py-1">30 days</span>
+                    <span className="hover:bg-gray-700 px-2 py-1">60 days</span>
+                    <span className="hover:bg-gray-700 px-2 py-1">90 days</span>
                 </div>
 
                 <div className="patientRecords w-full border-2 border-white mt-8 rounded-lg overflow-hidden">

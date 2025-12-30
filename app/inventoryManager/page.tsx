@@ -22,9 +22,10 @@ export default function InventoryManager() {
         <Dropdown pageName="Inventory Manager" />
       </div>
 
-      <div className="sidebar border-t-2 dark:border-white mt-6 flex">
+      <div className="sidebar border-t-2 dark:border-white mt-6 flex h-[86vh] overflow-hidden">
         <Sidebar roles={"Inventory Manager"} menu={menuItem} onSelect={setActive} />
-        <div className="main p-8 w-full">
+
+        <div className="main p-8 w-full overflow-y-auto">
           {active === "inventory" && <InventoryDashboard />}
           {active === "restock" && <RestockRequest />}
         </div>
