@@ -22,10 +22,10 @@ export default function Receptionist() {
         <Dropdown pageName="Receptionist" />
       </div>
 
-      <div className="sidebar border-t-2 dark:border-white mt-6 flex">
+      <div className="sidebar border-t-2 dark:border-white mt-6 flex h-[86vh] overflow-hidden">
         <Sidebar roles={"Receptionist"} menu={menuItems} onSelect={setActive} />
 
-        <div className="main p-8 w-full">
+        <div className="main p-8 w-full overflow-y-auto">
           {active === "patient" && <PatientRegistration />}
           {active === "queue" && <QueueManagement />}
         </div>
