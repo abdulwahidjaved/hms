@@ -50,7 +50,7 @@ export default function AnalyticsDashboard() {
 
             <div className="charts flex flex-row gap-5 mt-8">
 
-                <div className="chart1 dark:border-white border p-4 w-full h-87.5 rounded-md">
+                <div className="chart1 border-gray-400 dark:border-white border p-4 w-full h-87.5 rounded-md">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={data}>
                             <XAxis dataKey="date" />
@@ -61,7 +61,7 @@ export default function AnalyticsDashboard() {
                     </ResponsiveContainer>
                 </div>
 
-                <div className="chart2 dark:border-white border p-4 w-full h-87.5 rounded-md">
+                <div className="chart2 border-gray-400 dark:border-white border p-4 w-full h-87.5 rounded-md">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data}>
                             <XAxis dataKey="date" />
@@ -75,12 +75,12 @@ export default function AnalyticsDashboard() {
             </div>
 
 
-            <div className="performanceSummary w-full border border-white mt-8 rounded-2xl overflow-hidden p-5">
+            <div className="performanceSummary w-full border-2 border-gray-400 dark:border-white mt-8 rounded-2xl overflow-hidden p-5">
                 <h1 className="font-bold text-2xl">Department Performance Summary</h1>
 
                 <div className="summary mt-5">
                     {performance.map((item, index) => (
-                        <div key={index} className="w-full p-4 mt-3 border dark:border-white flex flex-row justify-between items-center rounded-lg">
+                        <div key={index} className="w-full p-4 mt-3 border-2 border-gray-400 dark:border-white flex flex-row justify-between items-center rounded-lg">
                             <div className="flex w-full justify-between">
 
                                 <div className="col1 flex flex-col">

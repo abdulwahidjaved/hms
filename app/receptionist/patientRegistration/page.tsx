@@ -1,6 +1,6 @@
 export default function PatientRegistration() {
   return (
-    <div className="patientRegistration border dark:border-white rounded-md p-6 w-full">
+    <div className="patientRegistration border border-gray-400 dark:border-white rounded-md p-6 w-full">
 
       <h2 className="text-3xl font-bold mb-6">Patient Registration</h2>
 
@@ -12,14 +12,14 @@ export default function PatientRegistration() {
           <input
             type="text"
             placeholder="P021"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
         {/* Gender */}
         <div className="flex flex-col">
           <label className="font-medium mb-1">Gender</label>
-          <select className="border-2 dark:border-white p-2 rounded-md">
+          <select className="border-2 border-gray-400 dark:border-white p-2 rounded-md">
             <option>Select Gender</option>
             <option>Male</option>
             <option>Female</option>
@@ -33,7 +33,7 @@ export default function PatientRegistration() {
           <input
             type="text"
             placeholder="John"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
@@ -43,7 +43,7 @@ export default function PatientRegistration() {
           <input
             type="text"
             placeholder="Doe"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
@@ -52,7 +52,7 @@ export default function PatientRegistration() {
           <label className="font-medium mb-1">Date of Birth</label>
           <input
             type="date"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
@@ -62,7 +62,7 @@ export default function PatientRegistration() {
           <input
             type="tel"
             placeholder="+91 9876543210"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
@@ -72,7 +72,7 @@ export default function PatientRegistration() {
           <input
             type="email"
             placeholder="example@email.com"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
@@ -82,7 +82,7 @@ export default function PatientRegistration() {
           <input
             type="text"
             placeholder="ABC Insurance"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 
@@ -91,7 +91,7 @@ export default function PatientRegistration() {
           <input
             type="text"
             placeholder="Walfram Street"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
             />
         </div>
             {/* Insurance Number */}
@@ -101,7 +101,7 @@ export default function PatientRegistration() {
           <input
             type="text"
             placeholder="INS-123456789"
-            className="border-2 dark:border-white p-2 rounded-md"
+            className="border-2 border-gray-400 dark:border-white p-2 rounded-md"
           />
         </div>
 

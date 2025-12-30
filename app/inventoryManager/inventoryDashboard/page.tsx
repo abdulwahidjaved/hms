@@ -39,24 +39,24 @@ export default function InventoryDashboard() {
                 } />
             </div>
 
-            <div className="patientRecords w-full border dark:border-white mt-8 rounded-2xl overflow-hidden p-5">
+            <div className="patientRecords w-full border-2 border-gray-400 dark:border-white mt-8 rounded-2xl overflow-hidden p-5">
 
                 <div className="contentsAll flex justify-between relative items-center">
                     <h1 className="font-bold text-3xl">Inventory items</h1>
 
                     <div className="buttons flex gap-5">
 
-                        <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen(!open)}>
+                        <button className="border-2 border-gray-400 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen(!open)}>
                             <span className="text-gray-400">Filter by status</span>
                             <FaAngleDown className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
                         </button>
 
-                        <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen01(!open01)}>
+                        <button className="border-2 border-gray-400 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer" onClick={() => setOpen01(!open01)}>
                             <span className="text-gray-400">All items</span>
                             <FaAngleDown className={`transition-transform duration-300 ${open01 ? "rotate-180" : ""}`} />
                         </button>
                         
-                        <button className="border-2 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer">
+                        <button className="border-2 border-gray-400 dark:border-white flex items-center gap-5 px-2 py-1 cursor-pointer">
                             <IoMdAdd />
                             <span className="text-gray-400">Restock request</span>
                             
@@ -78,7 +78,7 @@ export default function InventoryDashboard() {
                     <span className="hover:bg-gray-700 px-2 py-1">90 days</span>
                 </div>
 
-                <div className="patientRecords w-full border-2 dark:border-white mt-8 rounded-lg overflow-hidden">
+                <div className="patientRecords w-full border-2 border-gray-400 dark:border-white mt-8 rounded-lg overflow-hidden">
                     <table className="w-full border-collapse">
 
                         <thead>

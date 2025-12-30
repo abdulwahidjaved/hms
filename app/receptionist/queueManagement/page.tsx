@@ -106,11 +106,11 @@ export default function QueueManagement() {
 
             </div>
 
-            <div className="patientRecordsMain flex flex-col border dark:border-white p-5 rounded-md mt-5">
+            <div className="patientRecordsMain flex flex-col border-2 border-gray-400 dark:border-white p-5 rounded-md mt-5">
 
                 <h1 className="font-bold text-3xl">Patient Search</h1>
 
-                <div className="patientRecords w-full border-2 dark:border-white mt-8 rounded-lg overflow-hidden">
+                <div className="patientRecords w-full border-2 border-gray-400 dark:border-white mt-8 rounded-lg overflow-hidden">
                     <table className="w-full border-collapse">
 
                         <thead>
