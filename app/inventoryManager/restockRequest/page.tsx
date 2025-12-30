@@ -56,7 +56,7 @@ export default function RestockRequest() {
 
     return (
         <>
-            <div className="patientRecords w-full border border-white mt-8 rounded-2xl overflow-hidden p-5">
+            <div className="patientRecords w-full border dark:border-white mt-8 rounded-2xl overflow-hidden p-5">
 
                 <div className="contentsAll flex justify-between relative items-center">
                     <h1 className="font-bold text-3xl">Restock Requests</h1>
@@ -73,7 +73,7 @@ export default function RestockRequest() {
                     <span className="hover:bg-gray-700 px-2 py-1">Completed</span>
                 </div>
 
-                <div className="patientRecords w-full border-2 border-white mt-8 rounded-lg overflow-hidden">
+                <div className="patientRecords w-full border-2 dark:border-white mt-8 rounded-lg overflow-hidden">
                     <table className="w-full border-collapse">
 
                         <thead>

@@ -107,7 +107,7 @@ export default function PatientRegistration() {
 
         {/* Submit Button */}
         <div className="md:col-span-2 flex justify-center w-full px-6">
-          <button className="bg-gray-600 text-white px-6 py-2 rounded-md  transition w-full">
+          <button className="bg-blue-500 dark:bg-gray-600 text-white px-6 py-2 rounded-md  transition w-full">
             Register Patient
           </button>
         </div>

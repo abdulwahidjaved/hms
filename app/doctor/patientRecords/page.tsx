@@ -65,7 +65,7 @@ export default function PatientRecords() {
                     <button className="border dark:border-white p-2 px-3 cursor-pointer rounded-md"><FiSearch /></button>
                 </div>
 
-                <div className="patientRecords w-full border-2 border-white mt-8 rounded-lg overflow-hidden">
+                <div className="patientRecords w-full border-2 dark:border-white mt-8 rounded-lg overflow-hidden">
                     <table className="w-full border-collapse">
 
                         <thead>

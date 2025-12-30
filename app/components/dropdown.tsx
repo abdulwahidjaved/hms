@@ -15,7 +15,7 @@ export default function Dropdown({ pageName }: DropdownProps) {
 
                 <div className="contentsOfAll flex items-center gap-5 ">
                     <h1 className="font-bold text-xl">Current Role: </h1>
-                    <button className="flex items-center gap-20 border-2 border-white text-lg px-2 cursor-pointer" onClick={() => { setOpen(!open) }}>{pageName}<FaAngleDown className={` transition-transform duration-300 ${open ? "rotate-180" : ""}`} /></button>
+                    <button className="flex items-center gap-20 border-2 border-black dark:border-white text-lg px-2 cursor-pointer" onClick={() => { setOpen(!open) }}>{pageName}<FaAngleDown className={` transition-transform duration-300 ${open ? "rotate-180" : ""}`} /></button>
                 </div>
 
                 <div

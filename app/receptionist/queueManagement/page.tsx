@@ -110,7 +110,7 @@ export default function QueueManagement() {
 
                 <h1 className="font-bold text-3xl">Patient Search</h1>
 
-                <div className="patientRecords w-full border-2 border-white mt-8 rounded-lg overflow-hidden">
+                <div className="patientRecords w-full border-2 dark:border-white mt-8 rounded-lg overflow-hidden">
                     <table className="w-full border-collapse">
 
                         <thead>

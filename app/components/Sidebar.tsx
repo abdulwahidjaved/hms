@@ -25,7 +25,7 @@ export default function Sidebar({ roles, menu, onSelect }: SidebarProps) {
                         <button
                             key={item.value}
                             onClick={() => onSelect(item.value)}
-                            className="flex gap-2 text-lg hover:bg-gray-500 transition-all rounded-lg duration-100 cursor-pointer p-2 w-full items-center">
+                            className="flex gap-2 text-lg hover:bg-blue-100 transition-all rounded-lg duration-100 cursor-pointer p-2 w-full items-center">
                             {item.icon}
                             <span>{item.label}</span>
                         </button>

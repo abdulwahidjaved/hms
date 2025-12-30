@@ -50,7 +50,7 @@ export default function AnalyticsDashboard() {
 
             <div className="charts flex flex-row gap-5 mt-8">
 
-                <div className="chart1 border-white border p-4 w-full h-87.5 rounded-md">
+                <div className="chart1 dark:border-white border p-4 w-full h-87.5 rounded-md">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={data}>
                             <XAxis dataKey="date" />
@@ -61,7 +61,7 @@ export default function AnalyticsDashboard() {
                     </ResponsiveContainer>
                 </div>
 
-                <div className="chart2 border-white border p-4 w-full h-87.5 rounded-md">
+                <div className="chart2 dark:border-white border p-4 w-full h-87.5 rounded-md">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data}>
                             <XAxis dataKey="date" />
