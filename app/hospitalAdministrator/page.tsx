@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Dropdown from "../components/dropdown";
 import Sidebar from "../components/Sidebar";
 import { SiSimpleanalytics } from "react-icons/si";
 import AnalyticsDashboard from "./analyticsDashboard/page";
@@ -14,13 +13,9 @@ export default function HospitalAdministrator() {
   ];
   return (
     <>
-      <div className="p-6">
-        <Dropdown pageName="Hospital Administrator" />
-      </div>
-
-      <div className="sidebar border-t-2 dark:border-white mt-6 flex">
-        <Sidebar roles={"Hospital Administrator"} menu={menuItems} onSelect={setActive} />
-        <div className="main p-8 w-full">
+  <div className="sidebar flex">
+    <Sidebar roles={"Hospital Administrator"} menu={menuItems} onSelect={setActive} active={active} />
+        <div className="main p-6 w-full">
           {active === "analytics" && <AnalyticsDashboard />}
         </div>
       </div>

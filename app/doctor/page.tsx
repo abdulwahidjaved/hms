@@ -1,5 +1,4 @@
 "use client";
-import Dropdown from "../components/dropdown";
 import InfoCard from "../components/InfoCard";
 import Sidebar from "../components/Sidebar";
 import { FaStethoscope } from "react-icons/fa";
@@ -18,14 +17,10 @@ export default function Doctor() {
   ];
   return (
     <>
-      <div className="p-6">
-        <Dropdown pageName="Doctor" />
-      </div>
+      <div className="sidebar flex h-[86vh] overflow-hidden">
+        <Sidebar roles={"Doctor"} menu={menuItems} onSelect={setActive} active={active} />
 
-      <div className="sidebar border-t-2 dark:border-white mt-6 flex h-[86vh] overflow-hidden">
-        <Sidebar roles={"Doctor"} menu={menuItems} onSelect={setActive} />
-
-        <div className="main p-8 w-full overflow-y-auto">
+        <div className="main p-6 w-full overflow-y-auto">
           {active === "diagnoses" && <Diagnoses />}
           {active === "patients" && <PatientRecords />}
         </div>

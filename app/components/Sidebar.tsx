@@ -11,27 +11,35 @@ type SidebarProps = {
     roles: string;
     menu: MenuItem[];
     onSelect: (value: string) => void;
+    active?: string;
 };
 
-export default function Sidebar({ roles, menu, onSelect }: SidebarProps) {
+export default function Sidebar({ roles, menu, onSelect, active }: SidebarProps) {
     return (
         <>
-            <div className="sidebar w-[25vw] h-screen shadow-2xl dark:shadow-white p-3 overflow-hidden">
-                <h1 className="font-bold text-2xl">Hospital Dashboard</h1>
-                <h1>{roles}</h1>
-
-                <div className="work mt-10">
-                    {menu.map((item) => (
-                        <button
-                            key={item.value}
-                            onClick={() => onSelect(item.value)}
-                            className="flex gap-2 text-lg hover:bg-gray-500 transition-all rounded-lg duration-100 cursor-pointer p-2 w-full items-center">
-                            {item.icon}
-                            <span>{item.label}</span>
-                        </button>
-                    ))}
+            <aside className="sidebar w-80 bg-blue-50 min-h-screen p-6">
+                <div className="mb-6">
+                    <h1 className="font-bold text-2xl">Hospital Dashboard</h1>
+                    <p className="text-sm text-blue-700 mt-1">{roles}</p>
                 </div>
-            </div>
+
+                <nav className="work mt-4 space-y-2">
+                    {menu.map((item) => {
+                        const isActive = active === item.value;
+                        return (
+                            <button
+                                key={item.value}
+                                onClick={() => onSelect(item.value)}
+                                className={`flex gap-3 items-center w-full text-left px-3 py-3 rounded-lg transition-colors duration-150 ${isActive ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-700 hover:bg-white/60'}`}>
+                                <span className="w-6 h-6 text-blue-600 flex items-center justify-center">
+                                    {item.icon}
+                                </span>
+                                <span className="font-medium">{item.label}</span>
+                            </button>
+                        );
+                    })}
+                </nav>
+            </aside>
         </>
     );
 };

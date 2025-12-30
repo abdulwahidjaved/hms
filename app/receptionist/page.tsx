@@ -1,5 +1,4 @@
 "use client";
-import Dropdown from "../components/dropdown";
 import Sidebar from "../components/Sidebar";
 import { IoPersonAdd } from "react-icons/io5";
 import { FaClipboardList } from "react-icons/fa";
@@ -18,14 +17,10 @@ export default function Receptionist() {
   ];
   return (
     <>
-      <div className="p-6">
-        <Dropdown pageName="Receptionist" />
-      </div>
+  <div className="sidebar flex">
+    <Sidebar roles={"Receptionist"} menu={menuItems} onSelect={setActive} active={active} />
 
-      <div className="sidebar border-t-2 dark:border-white mt-6 flex">
-        <Sidebar roles={"Receptionist"} menu={menuItems} onSelect={setActive} />
-
-        <div className="main p-8 w-full">
+        <div className="main p-6 w-full">
           {active === "patient" && <PatientRegistration />}
           {active === "queue" && <QueueManagement />}
         </div>

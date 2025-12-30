@@ -1,5 +1,4 @@
 "use client";
-import Dropdown from "../components/dropdown";
 import Sidebar from "../components/Sidebar";
 import { MdInventory } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
@@ -18,13 +17,9 @@ export default function InventoryManager() {
   ];
   return (
     <>
-      <div className="p-6">
-        <Dropdown pageName="Inventory Manager" />
-      </div>
-
-      <div className="sidebar border-t-2 dark:border-white mt-6 flex">
-        <Sidebar roles={"Inventory Manager"} menu={menuItem} onSelect={setActive} />
-        <div className="main p-8 w-full">
+  <div className="sidebar flex">
+    <Sidebar roles={"Inventory Manager"} menu={menuItem} onSelect={setActive} active={active} />
+        <div className="main p-6 w-full">
           {active === "inventory" && <InventoryDashboard />}
           {active === "restock" && <RestockRequest />}
         </div>

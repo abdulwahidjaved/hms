@@ -1,83 +1,134 @@
-import InfoCard from "@/app/components/InfoCard";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { IoCalendarClearOutline } from "react-icons/io5";
-import { CiClock2 } from "react-icons/ci";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { VscLock } from "react-icons/vsc";
+import React, { useState } from 'react';
+import InfoCard from '@/app/components/InfoCard';
+import { CiClock2 } from 'react-icons/ci';
+import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
+import { IoCalendarClearOutline } from 'react-icons/io5';
 
-export default function Diagnoses() {
+// Types
+interface DiagnosisItem {
+  id: string;
+  priority: 'Urgent' | 'High' | 'Normal' | 'Low';
+  patient: string;
+  diagnosisType: string;
+  scheduledTime: string;
+  status: 'Completed' | 'Scheduled' | 'Pending' | 'In-Progress';
+  lockStatus: 'Locked' | 'Editable';
+}
 
-    const tableItems = [
-        {
-            priority: "Urgent",
-            patient: "Robert Johnson",
-            diagnosisType: "Emergency CT Scan",
-            scheduledTime: "19/12/2025, 20:15",
-            status: "Completed",
-            lockStatus: <VscLock />,
-        },
-        {
-            priority: "Normal",
-            patient: "Emily Clark",
-            diagnosisType: "Routine Checkup",
-            scheduledTime: "20/12/2025, 10:30",
-            status: "Pending",
-            lockStatus: <VscLock />,
-        },
-        {
-            priority: "High",
-            patient: "Michael Brown",
-            diagnosisType: "MRI Scan",
-            scheduledTime: "21/12/2025, 14:00",
-            status: "Scheduled",
-            lockStatus: <VscLock />,
-        },
-    ];
-    return (
-        <>
-            <div className="cards grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
-                <InfoCard title={"Pending"} number={"4"} subTitle={"Awaiting schedule"} icon={<AiOutlineExclamationCircle />
-                } />
+const Doctor = () => {
+  const [filterStatus, setFilterStatus] = useState('all');
 
-                <InfoCard title={"Scheduled"} number={"4"} subTitle={"Appointments set"} icon={<IoCalendarClearOutline />
-                } />
+  // Mock data
+  const diagnosisData: DiagnosisItem[] = [
+    { id: '1', priority: 'Urgent', patient: 'Robert Johnson', diagnosisType: 'Emergency CT Scan', scheduledTime: '19/12/2025, 20:15:00', status: 'Completed', lockStatus: 'Locked' },
+    { id: '2', priority: 'Urgent', patient: 'Thomas Thompson', diagnosisType: 'Emergency Evaluation', scheduledTime: '24/12/2025, 15:00:00', status: 'Completed', lockStatus: 'Locked' },
+    { id: '3', priority: 'High', patient: 'Michael Moore', diagnosisType: 'Oncology Follow-up', scheduledTime: '20/12/2025, 22:00:00', status: 'Completed', lockStatus: 'Locked' },
+    { id: '4', priority: 'High', patient: 'Susan Davis', diagnosisType: 'Fracture Assessment', scheduledTime: '23/12/2025, 13:30:00', status: 'Completed', lockStatus: 'Locked' },
+  ];
 
-                <InfoCard title={"In Progress"} number={"3"} subTitle={"Active diagnoses"} icon={<CiClock2 />
-                } />
+  // Stats
+  const pendingCount = diagnosisData.filter(d => d.status === 'Pending').length;
+  const scheduledCount = diagnosisData.filter(d => d.status === 'Scheduled').length;
+  const inProgressCount = diagnosisData.filter(d => d.status === 'In-Progress').length;
+  const completedCount = diagnosisData.filter(d => d.status === 'Completed').length;
 
-                <InfoCard title={"Completed"} number={"9"} subTitle={"Locked records"} icon={<IoMdCheckmarkCircleOutline />
-                } />
-            </div>
+  const filteredData = filterStatus === 'all' ? diagnosisData : diagnosisData.filter(d => d.status.toLowerCase() === filterStatus.toLowerCase());
 
-            <div className="patientRecords w-full border-2 border-white mt-8 rounded-2xl overflow-hidden">
-                <table className="w-full border-collapse">
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'Urgent': return 'bg-red-100 text-red-700';
+      case 'High': return 'bg-orange-100 text-orange-700';
+      case 'Normal': return 'bg-blue-100 text-blue-700';
+      case 'Low': return 'bg-gray-100 text-gray-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  };
 
-                    <thead>
-                        <tr>
-                            <th className="p-3 text-left">Priority</th>
-                            <th className="p-3 text-left">Patient</th>
-                            <th className="p-3 text-left">Diagnosis</th>
-                            <th className="p-3 text-left">Scheduled Time</th>
-                            <th className="p-3 text-left">Status</th>
-                            <th className="p-3 text-left">Lock</th>
-                        </tr>
-                    </thead>
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Completed': return 'bg-green-100 text-green-700';
+      case 'Scheduled': return 'bg-blue-100 text-blue-700';
+      case 'Pending': return 'bg-yellow-100 text-yellow-700';
+      case 'In-Progress': return 'bg-purple-100 text-purple-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  };
 
+  return (
+    <>
+      <section className="cards grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6 mb-6">
+        <InfoCard title={"Pending"} number={String(pendingCount)} subTitle={"Awaiting schedule"} icon={<CiClock2 />} />
+        <InfoCard title={"Scheduled"} number={String(scheduledCount)} subTitle={"Appointments set"} icon={<IoCalendarClearOutline />} />
+        <InfoCard title={"In Progress"} number={String(inProgressCount)} subTitle={"Active diagnoses"} icon={<IoMdCheckmarkCircleOutline />} />
+        <InfoCard title={"Completed"} number={String(completedCount)} subTitle={"Locked records"} icon={<IoMdCheckmarkCircleOutline />} />
+      </section>
 
-                    <tbody>
-                        {tableItems.map((items, index) => (
-                            <tr className="border-t" key={index} >
-                                <td className="p-3">{items.priority}</td>
-                                <td className="p-3">{items.patient}</td>
-                                <td className="p-3">{items.diagnosisType}</td>
-                                <td className="p-3">{items.scheduledTime}</td>
-                                <td className="p-3">{items.status}</td>
-                                <td className="p-3 text-center">{items.lockStatus}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </>
-    );
+      <section className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-gray-900">Diagnosis Queue</h2>
+          <div className="relative">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+            >
+              <option value="all">Filter by status</option>
+              <option value="pending">Pending</option>
+              <option value="scheduled">Scheduled</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+            <svg className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Priority</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Patient</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Diagnosis Type</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Scheduled Time</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Lock Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {filteredData.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getPriorityColor(item.priority)}`}>
+                      {item.priority}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{item.patient}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{item.diagnosisType}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{item.scheduledTime}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.lockStatus === 'Locked' ? (
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    ) : (
+                      <span className="text-sm text-gray-500">Editable</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
 };
+
+export default Doctor;
