@@ -5,6 +5,7 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import { MdPeopleOutline } from "react-icons/md";
 import { FaUserMd } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import Link from 'next/link';
 
 type Patient = {
     _id: string;
@@ -15,6 +16,8 @@ type Patient = {
     assignedStaff?: string;
     status?: string;
     queueNumber?: number;
+    reason?: string;
+    requestedDoctors?: string[];
 };
 
 export default function QueueManagement() {
@@ -23,16 +26,28 @@ export default function QueueManagement() {
 
     useEffect(() => {
         let mounted = true;
-        fetch('/api/patients')
-            .then((res) => res.json())
-            .then((data) => {
-                if (!mounted) return;
-                // ensure array
-                const arr: Patient[] = Array.isArray(data) ? data : [];
-                setPatients(arr);
-            })
-            .catch(() => setPatients([]))
-            .finally(() => { if (mounted) setLoading(false); });
+        const fetchPatients = () => {
+            setLoading(true);
+            fetch('/api/patients')
+                .then((res) => res.json())
+                .then((data) => {
+                    if (!mounted) return;
+                    const arr: Patient[] = Array.isArray(data) ? data : [];
+                    setPatients(arr);
+                })
+                .catch(() => setPatients([]))
+                .finally(() => { if (mounted) setLoading(false); });
+        };
+
+        fetchPatients();
+
+        // listen for updates from the registration form (other tabs/windows)
+        if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+            const bc = new BroadcastChannel('patients-updates');
+            bc.onmessage = () => fetchPatients();
+            return () => { mounted = false; bc.close(); };
+        }
+
         return () => { mounted = false; };
     }, []);
 
@@ -89,6 +104,8 @@ export default function QueueManagement() {
                                 <th className="px-6 py-3">Priority</th>
                                 <th className="px-6 py-3">Phone</th>
                                 <th className="px-6 py-3">Assigned Staff</th>
+                                <th className="px-6 py-3">Reason</th>
+                                <th className="px-6 py-3">Requested Doctors</th>
                                 <th className="px-6 py-3">Status</th>
                                 <th className="px-6 py-3">Update Status</th>
                             </tr>
@@ -103,7 +120,11 @@ export default function QueueManagement() {
                                     <tr key={p._id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4">{p.queueNumber ?? ''}</td>
                                         <td className="px-6 py-4">{p.patientId ?? p._id.slice(0,6).toUpperCase()}</td>
-                                        <td className="px-6 py-4 font-medium">{p.name ?? 'Unnamed'}</td>
+                                        <td className="px-6 py-4 font-medium">
+                                            <Link href={`/doctor/patientRecords?open=${p._id}`} className="text-blue-600 hover:underline">
+                                                {p.name ?? 'Unnamed'}
+                                            </Link>
+                                        </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${priorityBadge(p.priority)}`}>
                                                 {p.priority ?? 'Normal'}
@@ -111,6 +132,8 @@ export default function QueueManagement() {
                                         </td>
                                         <td className="px-6 py-4">{p.phone ?? '-'}</td>
                                         <td className="px-6 py-4">{p.assignedStaff ?? '—'}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-700 max-w-sm truncate">{p.reason ?? '—'}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-700">{(p.requestedDoctors || []).join(', ') || '—'}</td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${statusBadge(p.status)}`}>
                                                 {p.status ?? 'Waiting'}
@@ -118,10 +141,10 @@ export default function QueueManagement() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <select value={p.status ?? 'Waiting'} onChange={(e) => updateStatus(p._id, e.target.value)} className="border rounded-md px-3 py-2">
-                                                <option>Waiting</option>
-                                                <option>Admitted</option>
-                                                <option>In-Treatment</option>
-                                                <option>Discharged</option>
+                                                <option value="Waiting">Waiting</option>
+                                                <option value="Admitted">Admitted</option>
+                                                <option value="In-Treatment">In-Treatment</option>
+                                                <option value="Discharged">Discharged</option>
                                             </select>
                                         </td>
                                     </tr>

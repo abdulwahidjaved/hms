@@ -34,3 +34,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Database setup (local development)
+
+1. Create a `.env.local` file in the project root (do NOT commit it).
+2. Add your Mongo connection string as `MONGODB_URI`. You can copy `.env.local.example` and replace placeholders.
+
+Example (MongoDB Atlas):
+
+MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.abcd123.mongodb.net/hms?retryWrites=true&w=majority"
+
+Notes & troubleshooting:
+
+- If you use MongoDB Atlas ensure the IP access list allows your machine's IP or use `0.0.0.0/0` (for development only).
+- If your connection still fails, verify the username/password, cluster name, and that network access is enabled.
+- When `.env.local` is changed, restart `npm run dev` to pick up the new env var.

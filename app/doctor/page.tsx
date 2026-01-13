@@ -16,16 +16,14 @@ export default function Doctor() {
     { label: "Patient Records", value: "patients", icon: <MdPeopleAlt /> },
   ];
   return (
-    <>
-      <div className="sidebar flex h-[86vh] overflow-hidden">
+      <div className="flex">
         <Sidebar roles={"Doctor"} menu={menuItems} onSelect={setActive} active={active} />
 
-        <div className="main p-6 w-full overflow-y-auto">
+        <div className="main p-6 w-full bg-gray-50 min-h-screen overflow-y-auto">
           {active === "diagnoses" && <Diagnoses />}
           {active === "patients" && <PatientRecords />}
         </div>
         
       </div>
-    </>
   );
 }

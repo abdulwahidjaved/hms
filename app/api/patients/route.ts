@@ -37,16 +37,25 @@ export async function POST(req: Request) {
 
     // Assign a dummy staff member (round-robin from a short list) if not provided
     const staffPool = ['Michael Chen', 'Sarah Johnson', 'Emily Rodriguez', 'Thomas Moore'];
-  processedData.assignedStaff = processedData.assignedStaff ?? staffPool[(processedData.queueNumber - 1) % staffPool.length];
+  if (!processedData.assignedStaff || processedData.assignedStaff.trim() === "") {
+      // Patient hasn't chosen a doctor, apply Round Robin
+      processedData.assignedStaff = staffPool[(processedData.queueNumber - 1) % staffPool.length];
+      console.log(`Auto-assigned via Round Robin: ${processedData.assignedStaff}`);
+  } else {
+    // Patient chose a doctor, keep the selection
+    console.log(`Using user-selected doctor: ${processedData.assignedStaff}`);
+  }
 
   // Debug log (server-side) to verify assigned fields during development
   console.log('Creating patient with', { queueNumber: processedData.queueNumber, assignedStaff: processedData.assignedStaff });
 
   const newPatient = await Patient.create(processedData);
   console.log('Created patient:', { id: newPatient._id, queueNumber: newPatient.queueNumber, assignedStaff: newPatient.assignedStaff });
-    return NextResponse.json(newPatient, { status: 201 });
+  return NextResponse.json(newPatient, { status: 201 });
   } catch (error: any) {
     console.error("Registration Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+

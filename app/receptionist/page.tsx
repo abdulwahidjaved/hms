@@ -17,7 +17,7 @@ export default function Receptionist() {
   ];
   return (
     <>
-  <div className="sidebar flex">
+  <div className="flex">
     <Sidebar roles={"Receptionist"} menu={menuItems} onSelect={setActive} active={active} />
 
         <div className="main p-6 w-full">

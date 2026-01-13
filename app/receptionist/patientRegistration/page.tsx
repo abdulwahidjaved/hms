@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { FaUserPlus } from 'react-icons/fa';
 
 export default function PatientRegistration() {
+  const doctorOptions = ['Michael Chen', 'Sarah Johnson', 'Emily Rodriguez', 'Thomas Moore'];
+
   const [formData, setFormData] = useState({
     patientId: '',
     gender: '',
@@ -14,7 +16,11 @@ export default function PatientRegistration() {
     email: '',
     insuranceProvider: '',
     address: '',
-    insuranceNumber: ''
+    insuranceNumber: '',
+    // new fields
+    priority: 'Normal',
+    reason: '',
+    requestedDoctors: [] as string[],
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,8 +38,15 @@ export default function PatientRegistration() {
         // simple success UX
         alert("Patient registered successfully");
         setFormData({
-          patientId: '', gender: '', firstName: '', lastName: '', dob: '', phone: '', email: '', insuranceProvider: '', address: '', insuranceNumber: ''
+          patientId: '', gender: '', firstName: '', lastName: '', dob: '', phone: '', email: '', insuranceProvider: '', address: '', insuranceNumber: '', priority: 'Normal', reason: '', requestedDoctors: []
         });
+
+        // notify other pages to refresh their data (works across tabs/windows)
+        if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+          const bc = new BroadcastChannel('patients-updates');
+          bc.postMessage({ type: 'update' });
+          bc.close();
+        }
       } else {
         const text = await res.text();
         alert(`Registration failed: ${text}`);
@@ -104,6 +117,30 @@ export default function PatientRegistration() {
           <div className="md:col-span-2">
             <label className="block text-sm text-gray-700 mb-2">Address</label>
             <input value={formData.address} onChange={(e) => setField('address', e.target.value)} className="w-full rounded-md border px-4 py-2" placeholder="123 Main St, City, State 12345" />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">Priority</label>
+            <select value={formData.priority} onChange={(e) => setField('priority', e.target.value)} className="w-full rounded-md border px-4 py-2">
+              <option value="Normal">Normal</option>
+              <option value="High">High</option>
+              <option value="Urgent">Urgent</option>
+            </select>
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block text-sm text-gray-700 mb-2">Reason for Visit</label>
+            <textarea value={formData.reason} onChange={(e) => setField('reason', e.target.value)} className="w-full rounded-md border px-4 py-2" placeholder="Describe why the patient is visiting" rows={3} />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 mb-2">Requested Doctors</label>
+            <select multiple value={formData.requestedDoctors} onChange={(e) => {
+              const options = Array.from(e.target.selectedOptions).map(o => o.value);
+              setField('requestedDoctors', options);
+            }} className="w-full rounded-md border px-4 py-2 h-32">
+              {doctorOptions.map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
           </div>
 
           <div className="md:col-span-1">

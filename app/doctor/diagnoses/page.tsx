@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InfoCard from '@/app/components/InfoCard';
 import { CiClock2 } from 'react-icons/ci';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
@@ -17,14 +17,54 @@ interface DiagnosisItem {
 
 const Doctor = () => {
   const [filterStatus, setFilterStatus] = useState('all');
+  const [patients, setPatients] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data
-  const diagnosisData: DiagnosisItem[] = [
-    { id: '1', priority: 'Urgent', patient: 'Robert Johnson', diagnosisType: 'Emergency CT Scan', scheduledTime: '19/12/2025, 20:15:00', status: 'Completed', lockStatus: 'Locked' },
-    { id: '2', priority: 'Urgent', patient: 'Thomas Thompson', diagnosisType: 'Emergency Evaluation', scheduledTime: '24/12/2025, 15:00:00', status: 'Completed', lockStatus: 'Locked' },
-    { id: '3', priority: 'High', patient: 'Michael Moore', diagnosisType: 'Oncology Follow-up', scheduledTime: '20/12/2025, 22:00:00', status: 'Completed', lockStatus: 'Locked' },
-    { id: '4', priority: 'High', patient: 'Susan Davis', diagnosisType: 'Fracture Assessment', scheduledTime: '23/12/2025, 13:30:00', status: 'Completed', lockStatus: 'Locked' },
-  ];
+  useEffect(() => {
+    let mounted = true;
+    const fetchPatients = () => {
+      setLoading(true);
+      fetch('/api/patients')
+        .then(r => r.json())
+        .then((data) => { if (!mounted) return; setPatients(Array.isArray(data) ? data : []); })
+        .catch(() => setPatients([]))
+        .finally(() => { if (mounted) setLoading(false); });
+    };
+
+    fetchPatients();
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      const bc = new BroadcastChannel('patients-updates');
+      bc.onmessage = () => fetchPatients();
+      return () => { mounted = false; bc.close(); };
+    }
+
+    return () => { mounted = false; };
+  }, []);
+
+  function mapToDiagnosisStatus(p: any) {
+    const s = (p.status || '').toString().toLowerCase();
+
+    if (s === 'waiting' || s === '') return 'Pending';
+    if (s === 'scheduled') return 'Scheduled';
+    if (s === 'in-treatment' || s === 'admitted' || s === 'in-progress') return 'In-Progress';
+    if (s === 'completed' || s === 'discharged') return 'Completed';
+
+    // If queueNumber exists (patient assigned a slot), treat as Scheduled
+    if (p.queueNumber) return 'Scheduled';
+
+    return 'Pending';
+  }
+
+  const diagnosisData = patients.map((p, idx) => ({
+    id: p._id,
+    priority: p.priority || 'Normal',
+    patient: p.name || p.patientId || ('Patient ' + (idx + 1)),
+    diagnosisType: p.reason || 'General Consultation',
+    scheduledTime: p.queueNumber ? `Queue ${p.queueNumber}` : '—',
+    status: mapToDiagnosisStatus(p),
+    lockStatus: (p.clinicalNotes && p.clinicalNotes.some((n: any) => n.sealed)) ? 'Locked' : 'Editable',
+    requestedDoctors: p.requestedDoctors || []
+  }));
 
   // Stats
   const pendingCount = diagnosisData.filter(d => d.status === 'Pending').length;
@@ -90,8 +130,8 @@ const Doctor = () => {
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Priority</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Patient</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Diagnosis Type</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Scheduled Time</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Reason</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Requested Doctors</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Lock Status</th>
               </tr>
@@ -106,7 +146,7 @@ const Doctor = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{item.patient}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{item.diagnosisType}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{item.scheduledTime}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{(item.requestedDoctors || []).join(', ')}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
                       {item.status}
